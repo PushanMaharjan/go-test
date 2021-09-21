@@ -1,15 +1,13 @@
 package main
 
 import (
-	"go-fx-test/bundlefx"
-	"go-fx-test/httphandler"
-
+	"github.com/joho/godotenv"
 	"go.uber.org/fx"
+
+	"go-fx-test/bootstrap"
 )
 
 func main() {
-	fx.New(
-		bundlefx.Module,
-		fx.Invoke(httphandler.HandlerFunc),
-	).Run()
+	godotenv.Load()
+	fx.New(bootstrap.Module).Run()
 }
