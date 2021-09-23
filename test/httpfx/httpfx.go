@@ -1,11 +1,11 @@
-package httpfx
+// package httpfx
 
-import (
-	"net/http"
+// import (
+// 	"net/http"
 
-	"go.uber.org/fx"
-)
+// 	"go.uber.org/fx"
+// )
 
-var Module = fx.Options(
-	fx.Provide(http.NewServeMux),
-)
+// var Module = fx.Options(
+// 	fx.Provide(http.NewServeMux),
+// )
