@@ -24,12 +24,19 @@ func (u UserController) GetUser(c *gin.Context) {
 	if err != nil {
 		log.Println(err)
 	}
+
 	c.JSON(200, gin.H{"data": users})
 }
 
 func (u UserController) SaveUser(c *gin.Context) {
 	user := models.User{}
-	c.BindJSON(&user)
+	if err := c.ShouldBindJSON(&user); err != nil {
+		log.Println(err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
 
 	if err := u.service.Create(user); err != nil {
 		log.Println(err)
