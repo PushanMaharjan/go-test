@@ -27,21 +27,20 @@ func bootstrap(lifecycle fx.Lifecycle,
 	router infrastructure.Router,
 	routes routes.Routes,
 	database infrastructure.Database) {
-	conn, _ := database.DB.DB()
 	lifecycle.Append(fx.Hook{
 		OnStart: func(context.Context) error {
 			go func() {
 				log.Println("application started")
-				conn.SetMaxOpenConns(10)
 				routes.Setup()
-				router.Run(":5000")
+				router.Run()
 			}()
-
 			return nil
 		},
 		OnStop: func(context.Context) error {
 			log.Println("application stopped")
-			_ = conn.Close()
+
+			conn, _ := database.DB.DB()
+			conn.Close()
 			return nil
 		},
 	})
