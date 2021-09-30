@@ -30,13 +30,13 @@ func (s UserService) GetOneUser(userID lib.BinaryUUID) (user models.User, err er
 	return user, s.repository.First(&user, "id = ?", userID).Error
 }
 
-func (s UserService) UpdateUser(user *models.User) (*models.User, error) {
+func (s UserService) UpdateUser(user models.User) error {
 	if err := s.repository.Model(&models.User{}).Where("id = ?", user.ID).Updates(map[string]interface{}{
 		"fname": user.Fname,
 		"lname": user.Lname,
 		"admin": user.Admin,
 	}).Error; err != nil {
-		return nil, err
+		return err
 	}
-	return user, nil
+	return nil
 }

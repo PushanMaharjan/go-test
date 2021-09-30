@@ -11,7 +11,7 @@ type User struct {
 	Base
 	Fname string `json:"fname" form:"fname"`
 	Lname string `json:"lname" form:"lname"`
-	Admin string `json:"admin" form:"admin"`
+	Admin bool   `json:"admin" form:"admin"`
 }
 
 func (u User) TableName() string {
