@@ -3,7 +3,8 @@
 CREATE TABLE IF NOT EXISTS `users` (
   `id` BINARY(16) NOT NULL, 
   `fname` VARCHAR(100) NOT NULL,
-  `lname` VARCHAR(100) NOT NULL
+  `lname` VARCHAR(100) NOT NULL,
+  `admin` TINYINT(1) NOT NULL
 );
 
 -- +migrate Down

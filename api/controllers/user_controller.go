@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"go-fx-test/lib"
 	"go-fx-test/models"
 	"go-fx-test/services"
 	"log"
@@ -47,4 +48,23 @@ func (u UserController) SaveUser(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{"data": "user created"})
+}
+
+func (u UserController) GetOneUser(c *gin.Context) {
+	paramID := c.Param("id")
+
+	user, err := u.service.GetOneUser(lib.ParseUUID(paramID))
+
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"data": user,
+	})
+
 }

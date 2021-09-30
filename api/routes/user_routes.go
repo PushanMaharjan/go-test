@@ -29,5 +29,6 @@ func (s UserRoutes) Setup() {
 	{
 		api.GET("/user", s.userController.GetUser)
 		api.POST("/user", s.userController.SaveUser)
+		api.GET("/user/:id", s.userController.GetOneUser)
 	}
 }
