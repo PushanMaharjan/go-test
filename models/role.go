@@ -9,13 +9,11 @@ import (
 
 type Role struct {
 	Base
-	Role       string `json:"role" form:"role"`
-	Department string `json:"department" form:"department"`
+	Role string `json:"role"`
 }
 
 type UpdateRoleInput struct {
-	Department string `form:"department"`
-	Role       string `form:"role"`
+	Role string `json:"role"`
 }
 
 func (u Role) TableName() string {

@@ -58,7 +58,7 @@ func (r RoleController) GetOneRole(c *gin.Context) {
 	if err != nil {
 		log.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"user not found": err.Error(),
+			"role not found": err.Error(),
 		})
 		return
 	}
@@ -90,10 +90,6 @@ func (r RoleController) UpdateRole(c *gin.Context) {
 			"role not found": err.Error(),
 		})
 		return
-	}
-
-	if input.Department != "" {
-		role.Department = input.Department
 	}
 
 	if input.Role != "" {

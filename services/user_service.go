@@ -19,7 +19,7 @@ func NewUserService(
 }
 
 func (s UserService) GetAllUser() (users []models.User, err error) {
-	return users, s.repository.Find(&users).Error
+	return users, s.repository.Preload("Role").Find(&users).Error
 }
 
 func (s UserService) Create(user models.User) error {
@@ -27,14 +27,14 @@ func (s UserService) Create(user models.User) error {
 }
 
 func (s UserService) GetOneUser(userID lib.BinaryUUID) (user models.User, err error) {
-	return user, s.repository.First(&user, "id = ?", userID).Error
+	return user, s.repository.Preload("Role").First(&user, "id = ?", userID).Error
 }
 
 func (s UserService) UpdateUser(user models.User) error {
 	if err := s.repository.Model(&models.User{}).Where("id = ?", user.ID).Updates(map[string]interface{}{
-		"fname": user.Fname,
-		"lname": user.Lname,
-		"admin": user.Admin,
+		"fname":  user.Fname,
+		"lname":  user.Lname,
+		"roleID": user.RoleID,
 	}).Error; err != nil {
 		return err
 	}

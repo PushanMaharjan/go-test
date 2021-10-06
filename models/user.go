@@ -9,9 +9,16 @@ import (
 
 type User struct {
 	Base
-	Fname string `json:"fname" form:"fname"`
-	Lname string `json:"lname" form:"lname"`
-	Admin bool   `json:"admin" form:"admin"`
+	Fname  string         `json:"fname" form:"fname"`
+	Lname  string         `json:"lname" form:"lname"`
+	RoleID lib.BinaryUUID `json:"roleID"`
+	Role   Role           `json:"role" gorm:"foreignKey:RoleID;references:ID"`
+}
+
+type UpdateUserInput struct {
+	Fname  string `form:"fname"`
+	Lname  string `form:"lname"`
+	RoleID string `json:"roleID"`
 }
 
 func (u User) TableName() string {

@@ -4,7 +4,6 @@ import (
 	"go-fx-test/lib"
 	"go-fx-test/models"
 	"go-fx-test/services"
-	"go-fx-test/utils"
 	"log"
 	"net/http"
 
@@ -12,12 +11,14 @@ import (
 )
 
 type UserController struct {
-	service services.UserService
+	service     services.UserService
+	roleService services.RoleService
 }
 
-func NewUserController(userService services.UserService) UserController {
+func NewUserController(userService services.UserService, roleService services.RoleService) UserController {
 	return UserController{
-		service: userService,
+		service:     userService,
+		roleService: roleService,
 	}
 }
 
@@ -51,6 +52,11 @@ func (u UserController) SaveUser(c *gin.Context) {
 	c.JSON(200, gin.H{"data": "user created"})
 }
 
+type userResponse struct {
+	user models.User
+	role models.Role
+}
+
 func (u UserController) GetOneUser(c *gin.Context) {
 	paramID := c.Param("id")
 
@@ -64,6 +70,9 @@ func (u UserController) GetOneUser(c *gin.Context) {
 		return
 	}
 
+	var userRes userResponse
+	userRes.user = user
+
 	c.JSON(200, gin.H{
 		"data": user,
 	})
@@ -74,7 +83,7 @@ func (u UserController) UpdateUser(c *gin.Context) {
 
 	userID := c.Param("id")
 
-	var input utils.UpdateUserInput
+	var input models.UpdateUserInput
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		log.Println(err)
@@ -101,11 +110,12 @@ func (u UserController) UpdateUser(c *gin.Context) {
 		user.Lname = input.Lname
 	}
 
-	if input.Admin != user.Admin {
-		user.Admin = input.Admin
+	if input.RoleID != "" {
+		user.RoleID = lib.ParseUUID(input.RoleID)
 	}
 
 	err = u.service.UpdateUser(user)
+
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),

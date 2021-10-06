@@ -32,8 +32,7 @@ func (s RoleService) GetOneRole(roleID lib.BinaryUUID) (role models.Role, err er
 
 func (s RoleService) UpdateRole(role models.Role) error {
 	if err := s.repository.Model(&models.Role{}).Where("id = ?", role.ID).Updates(map[string]interface{}{
-		"role":       role.Role,
-		"department": role.Department,
+		"role": role.Role,
 	}).Error; err != nil {
 		return err
 	}
