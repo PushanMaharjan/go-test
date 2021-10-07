@@ -31,6 +31,6 @@ func (s UserRoutes) Setup() {
 		api.POST("/user", s.userController.SaveUser)
 		api.GET("/user/:id", s.userController.GetOneUser)
 		api.PUT("/user/:id", s.userController.UpdateUser)
-		api.PUT("/user/sendEmail", s.userController.TriggerEmail)
+		api.POST("/user/send-email", s.userController.TriggerEmail)
 	}
 }

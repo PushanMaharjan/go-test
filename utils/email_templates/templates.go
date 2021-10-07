@@ -1,5 +1,5 @@
 package email_templates
 
 const (
-	TestEmail = "test_templates"
+	TestEmail = "test_email"
 )
