@@ -15,6 +15,9 @@ type Env struct {
 	DBPort             string `mapstructure:"DB_PORT"`
 	DBName             string `mapstructure:"DB_NAME"`
 	MaxMultipartMemory int64  `mapstructure:"MAX_MULTIPART_MEMORY"`
+	MailClientId       string `mapstructure:"MAIL_CLIENT_ID"`
+	MailClientSecret   string `mapstructure:"MAIL_CLIENT_SECRET"`
+	MailRefreshToken   string `mapstructure:"MAIL_REFRESH_TOKEN"`
 }
 
 var globalEnv = Env{
