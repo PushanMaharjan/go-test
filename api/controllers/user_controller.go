@@ -128,3 +128,25 @@ func (u UserController) UpdateUser(c *gin.Context) {
 	})
 
 }
+
+func (u UserController) TriggerEmail(c *gin.Context) {
+	type emailInput struct {
+		Email    string `json:"email" binding:"required,email,lte=100"`
+		Username string `json:"username"`
+	}
+	var input emailInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(c, http.StatusBadRequest, err)
+		return
+	}
+	err := u.service.TriggerTestEmailToUser(input.Email, input.Username)
+	if err != nil {
+		log.Println(c, http.StatusBadRequest, err)
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"message": "user updated",
+	})
+
+}

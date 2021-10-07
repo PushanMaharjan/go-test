@@ -4,17 +4,22 @@ import (
 	"go-fx-test/lib"
 	"go-fx-test/models"
 	"go-fx-test/repository"
+	"go-fx-test/utils/email_templates"
+	"log"
 )
 
 type UserService struct {
-	repository repository.UserRepository
+	repository          repository.UserRepository
+	notificationService NotificationService
 }
 
 func NewUserService(
 	repository repository.UserRepository,
+	notificationService NotificationService,
 ) UserService {
 	return UserService{
-		repository: repository,
+		repository:          repository,
+		notificationService: notificationService,
 	}
 }
 
@@ -39,4 +44,22 @@ func (s UserService) UpdateUser(user models.User) error {
 		return err
 	}
 	return nil
+}
+
+func (s UserService) TriggerTestEmailToUser(
+	username string, email string,
+) error {
+	type EmailData struct {
+		Username string
+	}
+
+	emailData := EmailData{
+		Username: username,
+	}
+
+	err := s.notificationService.SendEmailWithTemplate(email, email_templates.TestEmail+"/", email_templates.TestEmail, emailData)
+	if err != nil {
+		log.Println("Error sending email: ", err)
+	}
+	return err
 }

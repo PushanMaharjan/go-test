@@ -63,7 +63,6 @@ type EmailParams struct {
 	Body            string
 	BodyData        interface{}
 	BodyTemplate    string
-	Lang            string
 }
 
 func (g GmailService) SendEmail(params EmailParams) (bool, error) {
@@ -90,12 +89,7 @@ func (g GmailService) SendEmail(params EmailParams) (bool, error) {
 	msgStr := emailTo + subject + "\n" + emailBody
 	var msg []byte
 
-	if params.Lang != "en" {
-		msgStrJP, _ := utils.ToISO2022JP(msgStr)
-		msg = msgStrJP
-	} else {
-		msg = []byte(msgStr)
-	}
+	msg = []byte(msgStr)
 	message.Raw = base64.URLEncoding.EncodeToString(msg)
 
 	// Send the message
