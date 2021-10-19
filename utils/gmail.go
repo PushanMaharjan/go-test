@@ -6,22 +6,9 @@ import (
 	"fmt"
 	"html"
 	"html/template"
-	"io/ioutil"
 	"path/filepath"
 	"reflect"
-	"strings"
-
-	"golang.org/x/text/encoding/japanese"
-	"golang.org/x/text/transform"
 )
-
-// ToISO2022JP -> Convert UTF-8 to ISO2022JP
-func ToISO2022JP(str string) ([]byte, error) {
-	reader := strings.NewReader(str)
-	transformer := japanese.ISO2022JP.NewEncoder()
-
-	return ioutil.ReadAll(transform.NewReader(reader, transformer))
-}
 
 //ParseTemplate -> to parse the template with given data
 func ParseTemplate(templateFileName string, data interface{}) (string, error) {

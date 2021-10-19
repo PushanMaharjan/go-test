@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"go-fx-test/lib"
 	"go-fx-test/models"
 	"go-fx-test/repository"
@@ -57,7 +58,9 @@ func (s UserService) TriggerTestEmailToUser(
 		Username: username,
 	}
 
-	err := s.notificationService.SendEmailWithTemplate(email, email_templates.TestEmail+"/", email_templates.TestEmail, emailData)
+	fmt.Println("from user input", "email:", email, "username:", username)
+
+	err := s.notificationService.WithTemplate(email, email_templates.TestEmail+"/", email_templates.TestEmail, emailData)
 	if err != nil {
 		log.Println("Error sending email: ", err)
 	}

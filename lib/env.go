@@ -18,6 +18,7 @@ type Env struct {
 	MailClientId       string `mapstructure:"MAIL_CLIENT_ID"`
 	MailClientSecret   string `mapstructure:"MAIL_CLIENT_SECRET"`
 	MailRefreshToken   string `mapstructure:"MAIL_REFRESH_TOKEN"`
+	MailAccessToken    string `mapstructure:"MAIL_ACCESS_TOKEN"`
 }
 
 var globalEnv = Env{

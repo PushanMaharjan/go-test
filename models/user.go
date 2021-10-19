@@ -21,6 +21,11 @@ type UpdateUserInput struct {
 	RoleID string `json:"roleID"`
 }
 
+type EmailInput struct {
+	Email    string `json:"email"`
+	Username string `json:"username"`
+}
+
 func (u User) TableName() string {
 	return "users"
 }
